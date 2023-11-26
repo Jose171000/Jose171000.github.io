@@ -17,10 +17,33 @@
         body{
           margin:0;
         }
+
+        .container{
+          position:fixed;
+          padding: 10px;
+          margin: 10%;
+          background-color: rgba(3, 3, 3, 0.322);
+          transition: .3s;
+          color: rgba(255, 255, 255, 0.135);
+          border: solid rgba(7, 7, 7, 0.05);
+          border-radius: 13px;
+        }
+        .container:hover{
+          color: rgb(255, 255, 255);
+          border: solid rgba(7, 7, 7, 0.929);
+          background-color: rgba(3, 3, 3, 0.699);
+
+          transition: .3s;
+          transform: scale(1.1);
+        }
       </style>
 </head>
 
 <body>
+  <div class="container">
+    <h1>Cubo 3D girando en órbita</h1>
+    <p>Este es un simulador 3D usando una nueva tecnología a base del lenguaje JavaScript. Esta nueva tecnología es Three.js</p>
+  </div>
     <script type="module">
         import * as THREE from 'three';
         const scene = new THREE.Scene();
