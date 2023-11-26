@@ -19,15 +19,18 @@
     <script type="module">
         import * as THREE from 'three';
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
         const renderer = new THREE.WebGLRenderer();
-
+        const sizes = {
+          width: window.innerWidth,
+          height: window.innerHeight
+        }
+        const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 1, 1000);
         //adding 'camera' to scene
         scene.add(camera);
         camera.position.z = 5;
 
         //renderer
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(sizes.width, sizes.height);
         renderer.setClearColor("#174F8A");
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -36,6 +39,14 @@
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         const dodecahedro = new THREE.Mesh(geometry, material);
         scene.add(dodecahedro);
+        //Resize
+        window.addEventListener("resize", ()=>{
+          sizes.width = window.innerWidth;
+          sizes.height = window.innerHeight;
+          camera.aspect = sizes.width/sizes.height;
+          camera.updateProjectionMatrix();
+          camera.setSize(sizes.width, sizes.height);
+        })
 
         console.log(scene);
         document.body.appendChild(renderer.domElement);
