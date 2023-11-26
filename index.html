@@ -33,12 +33,7 @@
         //adding 'camera' to scene
         scene.add(camera);
         camera.position.z = 5;
-
-        //renderer
-        renderer.setSize(sizes.width, sizes.height);
-        renderer.setClearColor("#174F8A");
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
+        
         //mesh
         const geometry = new THREE.BoxGeometry( 1, 1, 1 );
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -52,7 +47,12 @@
           camera.updateProjectionMatrix();
           camera.setSize(sizes.width, sizes.height);
         })
-
+        
+        //renderer
+        renderer.setSize(sizes.width, sizes.height);
+        renderer.setClearColor("#174F8A");
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        
         console.log(scene);
         document.body.appendChild(renderer.domElement);
         //loop
