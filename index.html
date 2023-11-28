@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D cube</title>
-    <script type="importmap">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D cube</title>
+  <script type="importmap">
         {
           "imports": {
             "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
@@ -13,86 +13,93 @@
           }
         }
       </script>
-      <style>
-        body{
-          margin:0;
-        }
+  <style>
+    body {
+      margin: 0;
+    }
 
-        .container{
-          position:fixed;
-          padding: 10px;
-          margin: 10%;
-          margin-left: 25%;
-          margin-right: 25%;
-          background-color: rgba(3, 3, 3, 0.322);
-          transition: .3s;
-          color: rgba(255, 255, 255, 0.135);
-          border: solid rgba(7, 7, 7, 0.05);
-          border-radius: 13px;
-        }
-        .container:hover{
-          color: rgb(255, 255, 255);
-          border: solid rgba(7, 7, 7, 0.929);
-          background-color: rgba(3, 3, 3, 0.699);
+    .container {
+      position: fixed;
+      padding: 10px;
+      margin: 10%;
+      margin-left: 25%;
+      margin-right: 25%;
+      background-color: rgba(3, 3, 3, 0.322);
+      transition: .3s;
+      color: rgba(255, 255, 255, 0.135);
+      border: solid rgba(7, 7, 7, 0.05);
+      border-radius: 13px;
+    }
 
-          transition: .3s;
-          transform: scale(1.1);
-        }
-      </style>
+    .container.large {
+      color: rgb(255, 255, 255);
+      border: solid rgba(7, 7, 7, 0.929);
+      background-color: rgba(3, 3, 3, 0.699);
+
+      transition: .3s;
+      transform: scale(1.1);
+    }
+  </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container" ondblclick="toggleSize(this)">
     <h1>Cubo 3D girando en órbita</h1>
-    <p>Este es un simulador 3D usando una nueva tecnología a base del lenguaje JavaScript. Esta nueva tecnología es Three.js</p>
+    <p>Este es un simulador 3D usando una nueva tecnología a base del lenguaje JavaScript. Esta nueva tecnología es
+      Three.js</p>
   </div>
-    <script type="module">
-        import * as THREE from 'three';
-        const scene = new THREE.Scene();
-        const renderer = new THREE.WebGLRenderer();
-        const sizes = {
-          width: window.innerWidth,
-          height: window.innerHeight
-        }
-        const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 1, 1000);
-        //adding 'camera' to scene
-        scene.add(camera);
-        camera.position.z = 5;
-        
-        //mesh
-        const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        const dodecahedro = new THREE.Mesh(geometry, material);
-        scene.add(dodecahedro);
-        //Resize
-        window.addEventListener("resize", ()=>{
-          sizes.width = window.innerWidth;
-          sizes.height = window.innerHeight;
-          camera.aspect = sizes.width/sizes.height;
-          camera.updateProjectionMatrix();
-          camera.setSize(sizes.width, sizes.height);
-        })
-        
-        //renderer
-        renderer.setSize(sizes.width, sizes.height);
-        renderer.setClearColor("#174F8A");
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-        console.log(scene);
-        document.body.appendChild(renderer.domElement);
-        //loop
-        const clock = new THREE.Clock();
-        function animated() {
-            const elapsedTime = clock.getElapsedTime();
-            dodecahedro.rotation.x = elapsedTime;
-            dodecahedro.rotation.y = elapsedTime;
-            dodecahedro.position.x = Math.cos(-elapsedTime);
-            dodecahedro.position.y = Math.sin(elapsedTime);
-            requestAnimationFrame(animated);
-            renderer.render(scene, camera);
-        }
-        animated()
-    </script>
+  <script>
+    function toggleSize(event){
+      event.classList.toggle('large');
+    }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    const scene = new THREE.Scene();
+    const renderer = new THREE.WebGLRenderer();
+    const sizes = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
+    const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 1, 1000);
+    //adding 'camera' to scene
+    scene.add(camera);
+    camera.position.z = 5;
+
+    //mesh
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const dodecahedro = new THREE.Mesh(geometry, material);
+    scene.add(dodecahedro);
+    //Resize
+    window.addEventListener("resize", () => {
+      sizes.width = window.innerWidth;
+      sizes.height = window.innerHeight;
+      camera.aspect = sizes.width / sizes.height;
+      camera.updateProjectionMatrix();
+      camera.setSize(sizes.width, sizes.height);
+    })
+
+    //renderer
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setClearColor("#174F8A");
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    console.log(scene);
+    document.body.appendChild(renderer.domElement);
+    //loop
+    const clock = new THREE.Clock();
+    function animated() {
+      const elapsedTime = clock.getElapsedTime();
+      dodecahedro.rotation.x = elapsedTime;
+      dodecahedro.rotation.y = elapsedTime;
+      dodecahedro.position.x = Math.cos(-elapsedTime);
+      dodecahedro.position.y = Math.sin(elapsedTime);
+      requestAnimationFrame(animated);
+      renderer.render(scene, camera);
+    }
+    animated()
+  </script>
 </body>
 
 </html>
