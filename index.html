@@ -72,6 +72,20 @@
     const cubeMaterial = new THREE.MeshMatcapMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     scene.add(cube);
+
+    const planeGeometry = new THREE.PlaneGeometry(5,5);
+    const planeMaterial = new THREE.MeshStandardMaterial({color:"#174F8A"});
+    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+    plane.position.z = -2;
+    scene.add(plane);
+
+    //light
+    const light = new THREE.AmbientLight(0xffffff, 20)
+    scene.add(light);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionalLight.position.y = 5;
+    scene.add(directionalLight);
+
     //Resize
     window.addEventListener("resize", () => {
       sizes.width = window.innerWidth;
