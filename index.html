@@ -49,12 +49,13 @@
       Three.js</p>
   </div>
   <script>
-    function toggleSize(event){
+    function toggleSize(event) {
       event.classList.toggle('large');
     }
   </script>
   <script type="module">
     import * as THREE from 'three';
+    import { OrbitControls } from "three/addons/controls/OrbitControls";
     const scene = new THREE.Scene();
     const renderer = new THREE.WebGLRenderer();
     const sizes = {
@@ -67,10 +68,10 @@
     camera.position.z = 5;
 
     //mesh
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const dodecahedro = new THREE.Mesh(geometry, material);
-    scene.add(dodecahedro);
+    const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const cubeMaterial = new THREE.MeshMatcapMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    scene.add(cube);
     //Resize
     window.addEventListener("resize", () => {
       sizes.width = window.innerWidth;
@@ -84,17 +85,20 @@
     renderer.setSize(sizes.width, sizes.height);
     renderer.setClearColor("#174F8A");
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
     console.log(scene);
     document.body.appendChild(renderer.domElement);
+
+    //Controls
+    const control = new OrbitControls(camera, renderer.domElement);
+
     //loop
     const clock = new THREE.Clock();
     function animated() {
       const elapsedTime = clock.getElapsedTime();
-      dodecahedro.rotation.x = elapsedTime;
-      dodecahedro.rotation.y = elapsedTime;
-      dodecahedro.position.x = Math.cos(-elapsedTime);
-      dodecahedro.position.y = Math.sin(elapsedTime);
+      cube.rotation.x = elapsedTime;
+      cube.rotation.y = elapsedTime;
+      cube.position.x = Math.cos(-elapsedTime);
+      cube.position.y = Math.sin(elapsedTime);
       requestAnimationFrame(animated);
       renderer.render(scene, camera);
     }
