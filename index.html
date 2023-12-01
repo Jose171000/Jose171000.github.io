@@ -60,7 +60,9 @@
     const sizes = {
       width: window.innerWidth,
       height: window.innerHeight
-    }
+    };
+    const RADIO = 1;
+
     //texture
     const textureLoader = new THREE.TextureLoader();
     const texture = textureLoader.load("https://assets.codepen.io/4698468/2k_earth_daymap.jpg ",
@@ -68,6 +70,9 @@
         console.log("Enjoy and care your world");
       }
     )
+    const normalTexture = textureLoader.load("https://assets.codepen.io/4698468/8k_earth_normal_map_compress.jpg")
+    const aoTexture = textureLoader.load("./assets/2k_earth_clouds.jpg")
+    const cloudsTexture = textureLoader.load("https://assets.codepen.io/4698468/2k_earth_clouds.jpg")
     //Camera
     const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 1, 1000);
 
@@ -75,17 +80,21 @@
     camera.position.z = 5;
 
     //mesh
-    const sphereGeometry = new THREE.SphereGeometry(1, 60);
-    const sphereMaterial = new THREE.MeshStandardMaterial({ map: texture });
-    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    // sphere.rotation.z = Math.PI*0.1
-    scene.add(sphere);
+    const planetGeometry = new THREE.SphereGeometry(RADIO, 60);
+    const planetMaterial = new THREE.MeshStandardMaterial({ 
+      map: texture,
+      normalMap: normalTexture,
+      aoMap: aoTexture
+    });
+    const earth = new THREE.Mesh(planetGeometry, planetMaterial);
+    // earth.rotation.z = Math.PI*0.1
+    scene.add(earth);
 
     //light
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
     scene.add(ambientLight)
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5)
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
     directionalLight.position.set(0, 5, 5);
     scene.add(directionalLight);
     //Resize
@@ -105,13 +114,14 @@
 
     //Controls
     const control = new OrbitControls(camera, renderer.domElement);
-
+    control.enableDamping = true;
     //loop
     const clock = new THREE.Clock();
     function animated() {
       const elapsedTime = clock.getElapsedTime();
-      sphere.rotation.y = elapsedTime*0.3;
+      earth.rotation.y = elapsedTime * 0.3;
       requestAnimationFrame(animated);
+      control.update();
       renderer.render(scene, camera);
     }
     animated()
