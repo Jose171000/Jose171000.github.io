@@ -71,7 +71,7 @@
       }
     )
     const normalTexture = textureLoader.load("https://assets.codepen.io/4698468/8k_earth_normal_map_compress.jpg")
-    const aoTexture = textureLoader.load("./assets/2k_earth_clouds.jpg")
+    const aoTexture = textureLoader.load("https://res.cloudinary.com/dce6wpls5/image/upload/v1701460294/er5xocfhfa9cceabfd3z.jpg")
     const cloudsTexture = textureLoader.load("https://assets.codepen.io/4698468/2k_earth_clouds.jpg")
     //Camera
     const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 1, 1000);
@@ -80,12 +80,21 @@
     camera.position.z = 5;
 
     //mesh
+    const cloudsGeometry = new THREE.SphereGeometry(RADIO + 0.01, 60);
+    const cloudsMaterial = new THREE.MeshStandardMaterial({
+      alphaMap: cloudsTexture,
+      transparent:true
+    })
+    const clouds = new THREE.Mesh(cloudsGeometry, cloudsMaterial);
+    scene.add(clouds);
+
     const planetGeometry = new THREE.SphereGeometry(RADIO, 60);
-    const planetMaterial = new THREE.MeshStandardMaterial({ 
+    const planetMaterial = new THREE.MeshStandardMaterial({
       map: texture,
       normalMap: normalTexture,
       aoMap: aoTexture
     });
+    planetMaterial.aoMapIntensity = 0.5;
     const earth = new THREE.Mesh(planetGeometry, planetMaterial);
     // earth.rotation.z = Math.PI*0.1
     scene.add(earth);
@@ -119,6 +128,7 @@
     const clock = new THREE.Clock();
     function animated() {
       const elapsedTime = clock.getElapsedTime();
+      clouds.rotation.y = elapsedTime * 0.29;
       earth.rotation.y = elapsedTime * 0.3;
       requestAnimationFrame(animated);
       control.update();
